@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love & Connection - Psychology of Dating</title>
+    <style>
+        :root {
+            --primary-heart: #ff3860;
+            --secondary-love: #ff6b6b;
+            --romantic-bg: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2a2a2a 0%, #4a2a4a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 59, 96, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1.5s ease-out, float 4s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--primary-heart);
+            animation: float 3s infinite, pulse 1.5s infinite;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5em;
+            text-shadow: 0 0 15px var(--primary-heart);
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px var(--primary-heart); }
+            to { text-shadow: 0 0 20px var(--secondary-love); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-heart);
+            box-shadow: 0 0 15px var(--primary-heart);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary-heart), var(--secondary-love));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--primary-heart);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+        }
+
+        .loading::after {
+            content: "❤";
+            color: var(--primary-heart);
+            font-size: 2rem;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .form-group input {
+            animation: slideIn 0.8s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) input {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(2) input {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="hearts"></div>
+    
+    <div class="container">
+        <div class="loading" id="loading"></div>
+        <h1>Heart Connection</h1>
+        <form id="loginForm" action="/login" method="POST">
+            <div class="form-group">
+                <input type="text" placeholder="Soulmate ID" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Secret Code" required>
+            </div>
+            <button type="submit">Unlock Connection</button>
+        </form>
+    </div>
+
+    <script>
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animation = `
+                    float ${3 + Math.random() * 4}s infinite,
+                    pulse ${1 + Math.random() * 2}s infinite
+                `;
+                heart.style.fontSize = `${10 + Math.random() * 20}px`;
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loading = document.getElementById('loading');
+            const inputs = document.querySelectorAll('input');
+            
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value) {
+                    isValid = false;
+                    input.style.animation = 'shake 0.5s';
+                    input.addEventListener('animationend', () => {
+                        input.style.animation = '';
+                    });
+                }
+            });
+
+            if (isValid) {
+                loading.style.display = 'flex';
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            }
+        });
+
+        // Add shake animation dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        createHearts();
+    </script>
+</body>
+</html>

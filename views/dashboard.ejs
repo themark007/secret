@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulRoot Dashboard</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --earth-brown: #4a3f35;
+            --root-beige: #d8c3a5;
+            --new-growth: #8a9d70;
+            --bloom-pink: #ff7eb3;
+            --leaf-green: #76b041;
+            --golden-yellow: #f4a261;
+            --deep-red: #c0392b;
+            --soil-dark: #2d2019;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--soil-dark);
+            font-family: 'Helvetica', sans-serif;
+            overflow: hidden;
+            color: var(--root-beige);
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background: rgba(25, 20, 17, 0.95);
+            padding: 2rem;
+            border-right: 2px solid var(--earth-brown);
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--root-beige);
+        }
+
+        .love-pattern-btn {
+            background: linear-gradient(45deg, var(--earth-brown), var(--bloom-pink));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .match-card {
+            background: rgba(65, 50, 40, 0.9);
+            border-radius: 15px;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        .match-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .plant-growth {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            width: 5px;
+            height: 0;
+            background: var(--new-growth);
+            animation: growStem 3s ease-out forwards;
+        }
+
+        @keyframes growStem {
+            to { height: 80%; }
+        }
+
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            opacity: 0;
+            animation: growLeaf 1s ease-out forwards;
+        }
+
+        @keyframes growLeaf {
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-profile">
+                <img src="<%= user.photoUrl %>" class="user-photo" alt="Profile Photo">
+                <h2><%= user.name %></h2>
+                <p>Compatibility: <%= user.compatibility %>%</p>
+            </div>
+
+            <button class="love-pattern-btn" onclick="window.location.href='/love'">
+                🌱 Discover Your Love Roots
+            </button>
+        </div>
+
+        <div class="main-content">
+            <h2>Your Growth Connections</h2>
+            <div class="matches-grid">
+                <% matches.forEach(match => { %>
+                    <div class="match-card">
+                        <img src="<%= match.photo %>" alt="<%= match.name %>">
+                        <h3><%= match.name %></h3>
+                        <p>Compatibility: <%= match.compatibility %>%</p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <div class="plant-growth"></div>
+    </div>
+
+    <script>
+        function createPlant() {
+            const plantGrowth = document.querySelector('.plant-growth');
+            for (let i = 0; i < 4; i++) {
+                const stem = document.createElement('div');
+                stem.className = 'stem';
+                stem.style.left = `${20 + i * 20}%`;
+                stem.style.animationDelay = `${i * 0.5}s`;
+                plantGrowth.appendChild(stem);
+            }
+
+            setTimeout(() => {
+                for (let i = 0; i < 10; i++) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'leaf';
+                    leaf.style.left = `${Math.random() * 100}%`;
+                    leaf.style.bottom = `${Math.random() * 80}%`;
+                    leaf.style.background = ['var(--leaf-green)', 'var(--golden-yellow)', 'var(--bloom-pink)', 'var(--deep-red)'][Math.floor(Math.random() * 4)];
+                    leaf.style.animationDelay = `${Math.random() * 2}s`;
+                    plantGrowth.appendChild(leaf);
+                }
+            }, 3000);
+        }
+
+        createPlant();
+    </script>
+</body>
+</html>
